@@ -4,8 +4,31 @@ import Link from "next/link";
 import Image from "next/image";
 import MainNav from "./main-nav";
 import NavbarActions from "./nav-actions";
+import axios from "axios";
+import apiConfig from "@/services/apiconfig";
 
-const Navbar = () => {
+const Navbar = async () => {
+  let storeData = null;
+
+  try {
+    const res = await axios({
+      method: "GET",
+      url: apiConfig.getStores,
+    });
+
+    storeData = res.data;
+  } catch (error: any) {
+    if (error.code === "ECONNREFUSED") {
+      storeData = { error: "Failed to connect to the server." };
+    } else if (error.response) {
+      storeData = { error: error.response.data };
+    } else {
+      storeData = { error: "Unknown error occurred." };
+    }
+  }
+
+  console.log(storeData)
+
   return (
     <div className="border-b">
       <Container>
@@ -14,7 +37,7 @@ const Navbar = () => {
           <Image src={"/logo.jpg"} height={10} width={50} alt="logo" />
           <p className="font-bold text-xl">SOLELUXURY</p>
         </Link>
-        <MainNav data={[]}/>
+        <MainNav data={storeData.stores}/>
         <NavbarActions />
        </div>
       </Container>
