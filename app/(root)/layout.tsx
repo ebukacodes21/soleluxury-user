@@ -1,19 +1,19 @@
-import BillBoard from "@/components/billboard";
-import Container from "@/components/ui/container";
 import apiConfig from "@/services/apiconfig";
-import axios from "axios";
 import React from "react";
+import axios from "axios";
+import { redirect } from "next/navigation";
 
-const page = async ({ params }: { params: { storeId: string } }) => {
-  const { storeId } = await params;
-
+export default async function SetupLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   let storeData = null;
 
   try {
     const res = await axios({
       method: "GET",
-      url: apiConfig.getStore,
-      params: { id: Number(storeId) },
+      url: apiConfig.getStores,
     });
 
     storeData = res.data;
@@ -27,13 +27,13 @@ const page = async ({ params }: { params: { storeId: string } }) => {
     }
   }
 
-  console.log(storeData.store.categories)
+  if (storeData && !storeData.error) {
+    redirect(`${storeData.stores[0].id}`);
+  }
 
   return (
-    <Container>
-      <BillBoard data={storeData?.store?.billboards} />
-    </Container>
+    <div>
+      {children}
+    </div>
   );
-};
-
-export default page;
+}

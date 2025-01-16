@@ -26,20 +26,18 @@ const Navbar = async () => {
       storeData = { error: "Unknown error occurred." };
     }
   }
-
-  console.log(storeData)
-
+  
   return (
     <div className="border-b">
       <Container>
-       <div className="relative px-4 sm:px-6 lg:-px-8 flex h-16 items-center">
-       <Link className="ml-4 flex items-center lg:ml-0" href={"/"}>
-          <Image src={"/logo.jpg"} height={10} width={50} alt="logo" />
-          <p className="font-bold text-xl">SOLELUXURY</p>
-        </Link>
-        <MainNav data={storeData.stores}/>
-        <NavbarActions />
-       </div>
+        <div className="relative px-4 sm:px-6 lg:-px-8 flex h-16 items-center">
+          <Link className="ml-4 flex items-center lg:ml-0" href={"/"}>
+            <Image src={"/logo.jpg"} height={10} width={50} alt="logo" />
+            <p className="font-bold text-xl">SOLELUXURY</p>
+          </Link>
+          <MainNav data={storeData?.stores} />
+          <NavbarActions />
+        </div>
       </Container>
     </div>
   );

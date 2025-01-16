@@ -1,24 +1,42 @@
 export type Billboard = {
-    id: number;
-    label: string;
-    image_url: string
-}
+  id: string;
+  label: string;
+  image_url: string;
+};
 
 export type Category = {
-    id: number;
-    name: string;
-    billboard: Billboard;
-}
+  id: string;
+  name: string;
+  store_id: string;
+  billboard: Billboard;
+  products: Product[];
+};
 
-export type Size = {}
-export type Color = {}
-export type Product = {}
+export type Size = {
+  id: string;
+  name: string;
+  value: string;
+};
+export type Color = {
+  id: string;
+  name: string;
+  value: string;
+};
+
+export type Product = {
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  is_featured: boolean;
+  is_archived: boolean;
+};
 
 export type Store = {
-    store_id: number;
-    store_name: string;
-    store_created_at: Date;
-    billboards: Billboard[];
-    categories: Category[];
-    products: Product[]
-}
+  id: string;
+  name: string;
+  created_at: Date;
+  billboards: Billboard[];
+  categories: Category[];
+  products: Product[];
+};
