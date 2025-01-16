@@ -27,9 +27,11 @@ export type Product = {
   id: string;
   name: string;
   description: string;
-  price: string;
+  price: number;
   is_featured: boolean;
   is_archived: boolean;
+  images: {url: string}[];
+  category: Category;
 };
 
 export type Store = {

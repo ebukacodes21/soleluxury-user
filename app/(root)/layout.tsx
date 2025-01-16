@@ -28,7 +28,7 @@ export default async function SetupLayout({
   }
 
   if (storeData && !storeData.error) {
-    redirect(`${storeData.stores[0].id}`);
+    redirect(`/store/${storeData.stores[0].id}`);
   }
 
   return (

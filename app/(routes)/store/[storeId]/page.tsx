@@ -1,7 +1,7 @@
 import React from "react";
 import apiConfig from "@/services/apiconfig";
 import axios from "axios";
-import BillBoard from "@/components/billboard";
+import Main from "@/components/main";
 import Container from "@/components/ui/container";
 
 const page = async ({
@@ -40,7 +40,7 @@ const page = async ({
   return (
     <Container>
       <div className="space-y-10 pb-10">
-        <BillBoard data={storeData} />
+        <Main data={storeData} />
       </div>
     </Container>
   );

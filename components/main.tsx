@@ -4,11 +4,11 @@ import { Store } from "@/types";
 import React, { FC, useState } from "react";
 import ProductList from "./product-list";
 
-type BillboardProp = {
+type MainProp = {
   data: { store: Store };
 };
 
-const BillBoard: FC<BillboardProp> = ({ data }) => {
+const Main: FC<MainProp> = ({ data }) => {
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(
     data.store.categories[0]?.id || null
   );
@@ -20,6 +20,8 @@ const BillBoard: FC<BillboardProp> = ({ data }) => {
     billboard: cat.billboard,
     products: cat.products
   }));
+
+  const activeCategory = categories.find(cat => cat.active);
 
   return (
     <>
@@ -41,30 +43,28 @@ const BillBoard: FC<BillboardProp> = ({ data }) => {
 
         {/* Rendering the billboard for the active category */}
         <div className="space-y-4">
-          {categories.map(
-            (cat) =>
-              cat.active &&
-              cat.billboard && (
-                <div
-                  key={cat.id}
-                  className="rounded-xl relative aspect-square md:aspect-[2.4/1] overflow-hidden"
-                  style={{ backgroundImage: `url(${cat.billboard.image_url})` }}
-                >
-                  <div className="h-full w-full flex flex-col justify-center items-center text-center gap-y-8">
-                    <div className="text-gray-200 font-bold text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl max-w-xs">
-                      {cat.billboard.label}
-                    </div>
-                  </div>
+          {activeCategory?.billboard && (
+            <div
+              className="rounded-xl relative aspect-square md:aspect-[2.4/1] overflow-hidden"
+              style={{ backgroundImage: `url(${activeCategory.billboard.image_url})` }}
+            >
+              <div className="h-full w-full flex flex-col justify-center items-center text-center gap-y-8">
+                <div className="text-gray-200 font-bold text-3xl sm:text-5xl lg:text-6xl sm:max-w-xl max-w-xs">
+                  {activeCategory.billboard.label}
                 </div>
-              )
+              </div>
+            </div>
           )}
         </div>
       </div>
+
       <div className="flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
-        <ProductList title="Featured Products" data={categories} />
+        {activeCategory?.products && (
+          <ProductList title="Featured Products" data={activeCategory.products} />
+        )}
       </div>
     </>
   );
 };
 
-export default BillBoard;
+export default Main;
