@@ -26,14 +26,14 @@ const Main: FC<MainProp> = ({ data }) => {
   return (
     <>
       <div className="p-4 sm:p-6 lg:p-8 rounded-xl overflow-hidden">
-        <div className="mx-6 flex items-center space-x-4 lg:space-x-6">
+        <div className="mx-6 flex items-center space-x-4 lg:space-x-6 mb-2">
           {categories.map((cat) => (
             <div
               key={cat.id}
               onClick={() => setActiveCategoryId(cat.id)}
               className={cn(
                 "text-sm font-medium transition-colors hover:text-black cursor-pointer",
-                cat.active ? "text-black" : "text-neutral-500"
+                cat.active ? "text-black border-b border-black" : "text-neutral-500"
               )}
             >
               {cat.name}

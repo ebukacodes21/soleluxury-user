@@ -39,6 +39,7 @@ const apiConfig = {
 
     getProduct: `${main}/get-product`,
     getProducts: `${main}/get-products`,
+    getCategoryProducts: `${main}/get-category-products`,
     createProduct: `${main}/create-product`,
     updateProduct: `${main}/update-product`,
     deleteProduct: `${main}/delete-product`,

@@ -32,6 +32,8 @@ export type Product = {
   is_archived: boolean;
   images: {url: string}[];
   category: Category;
+  size: Size
+  color: Color
 };
 
 export type Store = {

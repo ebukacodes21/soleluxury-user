@@ -5,16 +5,24 @@ import React, { FC } from "react";
 import IconButton from "./icon-button";
 import { Expand, ShoppingCart } from "lucide-react";
 import Currency from "./currency";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";  
 
 type ProductCardProp = {
   data: Product;
 };
 
 const ProductCard: FC<ProductCardProp> = ({ data }) => {
+  const router = useRouter();
+
   const handleClick = () => {
-    redirect(`/product/${data.id}`)
-  }
+    const queryParams = new URLSearchParams({
+      productId: data.id.toString(),
+      categoryId: data.category.id.toString(),
+    }).toString();  
+
+    // Redirect to the product page with query parameters
+    router.push(`/product?${queryParams}`);
+  };
 
   return (
     <div onClick={handleClick} className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4">
@@ -23,7 +31,7 @@ const ProductCard: FC<ProductCardProp> = ({ data }) => {
           alt="image"
           src={data.images[0].url}
           fill
-          className="aspect-square rounded-md"
+          className="aspect-square object-cover rounded-md"
         />
 
         <div className="opacity-0 group-hover:opacity-100 transition absolute w-full px-6 bottom-5">
