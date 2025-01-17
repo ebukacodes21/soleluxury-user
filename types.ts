@@ -17,6 +17,7 @@ export type Size = {
   name: string;
   value: string;
 };
+
 export type Color = {
   id: string;
   name: string;
@@ -43,4 +44,6 @@ export type Store = {
   billboards: Billboard[];
   categories: Category[];
   products: Product[];
+  sizes: Size[];
+  colors: Color[];
 };
