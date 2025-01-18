@@ -16,7 +16,7 @@ const CateList: FC<CateListProp> = ({ data }) => {
   const categories = data.map((cat) => ({
     id: cat.id,
     name: cat.name,
-    route: `/category/${cat.id}`,
+    route: `/store/${cat.store_id}/category/${cat.id}`,
     active: activeCategoryId === cat.id,
     billboard: cat.billboard,
     products: cat.products,

@@ -3,8 +3,8 @@ import apiConfig from "@/services/apiconfig";
 import axios from "axios";
 import React from "react";
 
-const page = async ({ params }: { params: { categoryId: string } }) => {
-  const { categoryId } = await params;
+const page = async ({ params }: { params: { storeId: string, categoryId: string } }) => {
+  const { categoryId, storeId } = await params;
   let category = null;
 
   try {
@@ -24,9 +24,30 @@ const page = async ({ params }: { params: { categoryId: string } }) => {
       category = { error: "Unknown error occurred." };
     }
   }
+
+  let store = null;
+
+  try {
+    const res = await axios({
+      method: "GET",
+      url: apiConfig.getStore,
+      params: { id: storeId },
+    });
+
+    store = res.data;
+  } catch (error: any) {
+    if (error.code === "ECONNREFUSED") {
+      store = { error: "Failed to connect to the server." };
+    } else if (error.response) {
+      store = { error: error.response.data };
+    } else {
+      store = { error: "Unknown error occurred." };
+    }
+  }
+  
   return (
     <div>
-      <Main data={category} />
+      <Main data={{ store: store.store, category: category.category }} />
     </div>
   );
 };
