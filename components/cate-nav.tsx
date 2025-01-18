@@ -1,21 +1,10 @@
 import React from "react";
 import apiConfig from "@/services/apiconfig";
 import axios from "axios";
-import Container from "@/components/ui/container";
-import ProductList from "@/components/product-list";
-import CateNav from "@/components/cate-nav";
+import CateList from "./cate-list";
 
-const page = async ({
-  params,
-}: {
-  params: { storeId: string };
-}) => {
+const CateNav = async ({ params }: { params: { storeId: string } }) => {
   const { storeId } = await params;
-  if (!storeId || storeId === typeof undefined) {
-    console.error("Store ID is missing!");
-    return null;
-  }
-
   let storeData = null;
 
   try {
@@ -37,13 +26,10 @@ const page = async ({
   }
 
   return (
-    <Container>
-      <div className="space-y-10 pb-10">
-        <CateNav params={{ storeId }}/>
-        <ProductList title="Featured Products" data={storeData.store.products} />
-      </div>
-    </Container>
+    <div className="mx-6 flex items-center space-x-4 lg:space-x-6 mt-2">
+      {storeData.store && <CateList data={storeData.store.categories} />}
+    </div>
   );
 };
 
-export default page;
+export default CateNav;

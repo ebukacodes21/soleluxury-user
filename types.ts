@@ -8,6 +8,7 @@ export type Category = {
   id: string;
   name: string;
   store_id: string;
+  active?: boolean
   billboard: Billboard;
   products: Product[];
 };
