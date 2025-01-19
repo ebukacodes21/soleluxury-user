@@ -26,7 +26,7 @@ const CateNav = async ({ params }: { params: { storeId: string } }) => {
   }
 
   return (
-    <div className="mx-6 flex items-center space-x-4 lg:space-x-6 mt-2">
+    <div className="mx-6 flex items-center space-x-4 lg:space-x-6 mt-2 border-b border-gray-300 pb-2">
       {storeData.store && <CateList data={storeData.store.categories} />}
     </div>
   );

@@ -1,4 +1,4 @@
-import Main from "@/components/main";
+import CategoryComponent from "@/components/category";
 import apiConfig from "@/services/apiconfig";
 import axios from "axios";
 import React from "react";
@@ -47,7 +47,7 @@ const page = async ({ params }: { params: { storeId: string, categoryId: string 
   
   return (
     <div>
-      <Main data={{ store: store.store, category: category.category }} />
+      <CategoryComponent data={{ store: store.store, category: category.category }} />
     </div>
   );
 };
