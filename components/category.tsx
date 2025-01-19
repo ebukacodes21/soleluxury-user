@@ -35,7 +35,7 @@ const CategoryComponent: FC<CategoryProp> = ({ data }) => {
         </div>
       </div>
 
-      <CategoryFilter data={store} />
+      <CategoryFilter data={{ category, store}} />
     </Container>
   );
 };
