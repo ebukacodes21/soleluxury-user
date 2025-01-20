@@ -49,6 +49,8 @@ const apiConfig = {
     createOrder: `${main}/create-order`,
     updateOrder: `${main}/update-order`,
     deleteOrder: `${main}/delete-order`,
+
+    checkOut: `${main}/checkout`,
 }
 
 export default apiConfig

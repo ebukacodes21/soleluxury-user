@@ -2,6 +2,7 @@ import { Category, Store, Product } from "@/types";
 import React, { FC, useState } from "react";
 import Filter from "./ui/filter";
 import ProductCard from "./ui/product-card";
+import MobileFilters from "./mobile-filter";
 
 type CategoryFilterProp = {
   data: { category: Category; store: Store };
@@ -20,20 +21,12 @@ const CategoryFilter: FC<CategoryFilterProp> = ({ data }) => {
       (product) => product.category.id === category.id
     );
 
-    // Then filter by size if a size filter is selected
     const sizeFilteredProducts = categoryProducts.filter((product) => {
-      const sizeMatch = selectedSizeId
-        ? product.size.id === selectedSizeId
-        : true;
-      return sizeMatch;
+      return selectedSizeId ? product.size.id === selectedSizeId : true;
     });
 
-    // Then filter by color if a color filter is selected
     const colorFilteredProducts = sizeFilteredProducts.filter((product) => {
-      const colorMatch = selectedColorId
-        ? product.color.id === selectedColorId
-        : true;
-      return colorMatch;
+      return selectedColorId ? product.color.id === selectedColorId : true;
     });
 
     return colorFilteredProducts;
@@ -41,57 +34,60 @@ const CategoryFilter: FC<CategoryFilterProp> = ({ data }) => {
 
   // Handle size filter selection
   const handleSizeFilter = (sizeId: string) => {
-    setSelectedSizeId(sizeId === selectedSizeId ? null : sizeId);
+    setSelectedSizeId(sizeId === selectedSizeId ? null : sizeId); // Toggle the filter off if already selected
   };
 
   // Handle color filter selection
   const handleColorFilter = (colorId: string) => {
-    setSelectedColorId(colorId === selectedColorId ? null : colorId);
+    setSelectedColorId(colorId === selectedColorId ? null : colorId); // Toggle the filter off if already selected
   };
 
-  // Get the filtered list of products for the selected category
   const filteredProducts = filterProducts(category, store.products);
 
   return (
-<div className="px-4 sm:px-6 lg:px-8 pb-24 flex flex-col lg:flex-row gap-8">
-  {/* Product Grid */}
-  <div className="lg:flex-1">
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-      {filteredProducts.map((product) => (
-        <div
-          key={product.id}
-          className="transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-        >
-          <ProductCard data={product} />
+    <div className="px-4 sm:px-6 lg:px-8 pb-24 flex flex-col lg:flex-row gap-8">
+      {/* Filter Section */}
+      <div className="lg:w-1/4 p-6 sticky top-24">
+        <MobileFilters
+          sizes={store.sizes}
+          colors={store.colors}
+          selectedSizeId={selectedSizeId}
+          selectedColorId={selectedColorId}
+          handleSizeFilter={handleSizeFilter}
+          handleColorFilter={handleColorFilter}
+        />
+        <div className="mb-8 hidden md:block">
+          <Filter
+            data={store?.sizes}
+            name="Sizes"
+            valueKey="sizeId"
+            onClick={handleSizeFilter}
+            selectedValue={selectedSizeId}
+          />
+          <Filter
+            data={store?.colors}
+            name="Colors"
+            valueKey="colorId"
+            onClick={handleColorFilter}
+            selectedValue={selectedColorId}
+          />
         </div>
-      ))}
-    </div>
-  </div>
+      </div>
 
-  {/* Filter Section */}
-  <div className="lg:w-1/4 bg-white rounded-lg shadow-lg p-6 sticky top-24">
-    <div className="mb-8">
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">Filters</h3>
-      <Filter
-        data={store?.sizes}
-        category={category}
-        name="Sizes"
-        valueKey="sizeId"
-        onClick={handleSizeFilter}
-        selectedValue={selectedSizeId}
-      />
-      <Filter
-        data={store?.colors}
-        category={category}
-        name="Colors"
-        valueKey="colorId"
-        onClick={handleColorFilter}
-        selectedValue={selectedColorId}
-      />
+      {/* Product Grid */}
+      <div className="lg:flex-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            >
+              <ProductCard data={product} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   );
 };
 

@@ -5,11 +5,11 @@ import { cn } from "@/libs/utils";
 
 type FilterProps = {
   data: (Size | Color)[];
-  category: Category;
+  category?: Category;
   name: string;
   valueKey: string;
   onClick: (id: string) => void;
-  selectedValue: string | null; 
+  selectedValue?: string | null; 
 };
 
 const Filter: FC<FilterProps> = ({ data, name, onClick, selectedValue }) => {
@@ -24,7 +24,7 @@ const Filter: FC<FilterProps> = ({ data, name, onClick, selectedValue }) => {
               <Button
                 className={cn(
                   "rounded-md text-sm text-gray-800 p-2 bg-white border border-gray-300",
-                  selectedValue === filter.id && "bg-black text-white" 
+                  selectedValue === filter.id && "bg-black text-white"
                 )}
                 onClick={() => onClick(filter.id)} 
               >
