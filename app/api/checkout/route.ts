@@ -11,6 +11,9 @@ export async function POST(request: NextRequest) {
             method: method,
             url: ApiConfig.checkOut,
             data: body,
+            headers: {
+                "Content-Type": "application/json"
+            }
         });
 
         return NextResponse.json(res.data);

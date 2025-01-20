@@ -50,7 +50,7 @@ const apiConfig = {
     updateOrder: `${main}/update-order`,
     deleteOrder: `${main}/delete-order`,
 
-    checkOut: `${main}/checkout`,
+    checkOut: `${main}/create-order`,
 }
 
 export default apiConfig

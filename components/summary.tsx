@@ -6,34 +6,41 @@ import Button from "./ui/button";
 import useCart from "@/hooks/useCart";
 import axios from "axios";
 import apiConfig from "@/services/apiconfig";
+import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 const Summary = () => {
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
+  const searchParams = useSearchParams()
 
+  useEffect(() => {
+    if(searchParams.get("success")) {
+        toast.success("payment completed")
+        removeAll()
+    }
+
+    if(searchParams.get("cancelled")) {
+        toast.error("something went wrong")
+    }
+  },[searchParams, removeAll])
+
+  const data = items.map((item) => item.id)
   const totalPrice = items.reduce((total, item) => {
     return total + item.price;
   }, 0);
 
   const onCheckout = async () => {
-    let productData = null;
-
     try {
       const res = await axios({
         method: "POST",
         url: apiConfig.checkOut,
-        data: { }, 
+        data: { items: data }, 
       });
   
-      productData = res.data;
+      window.location = res.data.url;
     } catch (error: any) {
-      if (error.code === "ECONNREFUSED") {
-        productData = { error: "Failed to connect to the server." };
-      } else if (error.response) {
-        productData = { error: error.response.data };
-      } else {
-        productData = { error: "Unknown error occurred." };
-      }
+     console.log(error);
     }
   }
 
@@ -46,7 +53,7 @@ const Summary = () => {
           <Currency value={totalPrice} />
         </div>
       </div>
-      <Button className="w-full mt-6">Checkout</Button>
+      <Button onClick={onCheckout} disabled={items.length < 0} className="w-full mt-6">Checkout</Button>
     </div>
   );
 };
